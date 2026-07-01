@@ -3,21 +3,15 @@ package machine;
 import java.util.Scanner;
 
 public class CoffeeMachine {
-    private int waterQuantity;
-    private int milkQuantity;
-    private int coffeeQuantity;
-    private int disposableCups;
     private final Scanner input;
     private String choice;
-    private CashUnit cashUnit;
+    private final CashUnit cashUnit;
+    private final StockManager stockManager;
 
     public CoffeeMachine() {
-        this.waterQuantity = 400;
-        this.milkQuantity = 540;
-        this.coffeeQuantity = 120;
-        this.disposableCups = 9;
         this.input = new Scanner(System.in);
         this.cashUnit = new CashUnit();
+        this.stockManager = new StockManager();
     }
 
     public void start(){
@@ -88,26 +82,26 @@ public class CoffeeMachine {
         final int PRICE_FOR_ESPRESSO = espresso.getPrice();
         StringBuilder missingResources = new StringBuilder();
 
-        if(this.waterQuantity >= WATER_QUANTITY_FOR_ESPRESSO){
-            this.waterQuantity -= WATER_QUANTITY_FOR_ESPRESSO;
+        if(stockManager.getWater() >= WATER_QUANTITY_FOR_ESPRESSO){  // done
+            stockManager.updateWater(-WATER_QUANTITY_FOR_ESPRESSO);  // done
         }else{
             missingResources.append("Sorry, not enough water\n");
         }
 
-        if(this.milkQuantity >= MILK_QUANTITY_FOR_ESPRESSO){
-            this.milkQuantity -= MILK_QUANTITY_FOR_ESPRESSO;
+        if(stockManager.getMilk() >= MILK_QUANTITY_FOR_ESPRESSO){   // done
+            stockManager.updateMilk(-MILK_QUANTITY_FOR_ESPRESSO);   // done
         }else{
             missingResources.append("Sorry, not enough milk\n");
         }
 
-        if(this.coffeeQuantity >= COFFEE_QUANTITY_FOR_ESPRESSO){
-            this.coffeeQuantity -= COFFEE_QUANTITY_FOR_ESPRESSO;
+        if(stockManager.getCoffee() >= COFFEE_QUANTITY_FOR_ESPRESSO){   // done
+            stockManager.updateCoffee(-COFFEE_QUANTITY_FOR_ESPRESSO);   // done
         }else{
             missingResources.append("Sorry, not enough coffee\n");
         }
 
-        if(this.disposableCups > 0){
-            this.disposableCups--;
+        if(stockManager.getDisposableCups() > 0){   // done
+            stockManager.updateCups(-1);  // done
         }else{
             missingResources.append("Sorry, not enough disposable cups\n");
         }
@@ -128,26 +122,26 @@ public class CoffeeMachine {
         final int PRICE_FOR_LATTE = latte.getPrice();
         StringBuilder missingResources = new StringBuilder();
 
-        if(this.waterQuantity >= WATER_QUANTITY_FOR_LATTE){
-            this.waterQuantity -= WATER_QUANTITY_FOR_LATTE;
+        if(stockManager.getWater() >= WATER_QUANTITY_FOR_LATTE){  // done
+            stockManager.updateWater(-WATER_QUANTITY_FOR_LATTE);  // done
         }else{
             missingResources.append("Sorry, not enough water\n");
         }
 
-        if(this.milkQuantity >= MILK_QUANTITY_FOR_LATTE){
-            this.milkQuantity -= MILK_QUANTITY_FOR_LATTE;
+        if(stockManager.getMilk() >= MILK_QUANTITY_FOR_LATTE){   // done
+            stockManager.updateMilk(-MILK_QUANTITY_FOR_LATTE);   // done
         }else{
             missingResources.append("Sorry, not enough milk\n");
         }
 
-        if(this.coffeeQuantity >= COFFEE_QUANTITY_FOR_LATTE){
-            this.coffeeQuantity -= COFFEE_QUANTITY_FOR_LATTE;
+        if(stockManager.getCoffee() >= COFFEE_QUANTITY_FOR_LATTE){   // done
+            stockManager.updateCoffee(-COFFEE_QUANTITY_FOR_LATTE);   // done
         }else{
             missingResources.append("Sorry, not enough coffee\n");
         }
 
-        if(this.disposableCups > 0){
-            this.disposableCups--;
+        if(stockManager.getDisposableCups() > 0){     // done
+            stockManager.updateCups(-1);    // done
         }else{
             missingResources.append("Sorry, not enough disposable cups\n");
         }
@@ -167,26 +161,26 @@ public class CoffeeMachine {
         final int PRICE_FOR_CAPPUCCINO = 6;
         StringBuilder missingResources = new StringBuilder();
 
-        if(this.waterQuantity >= WATER_QUANTITY_FOR_CAPPUCCINO){
-            this.waterQuantity -= WATER_QUANTITY_FOR_CAPPUCCINO;
+        if(stockManager.getWater() >= WATER_QUANTITY_FOR_CAPPUCCINO){   // done
+            stockManager.updateWater(-WATER_QUANTITY_FOR_CAPPUCCINO);   // done
         }else{
             missingResources.append("Sorry, not enough water\n");
         }
 
-        if(this.milkQuantity >= MILK_QUANTITY_FOR_CAPPUCCINO){
-            this.milkQuantity -= MILK_QUANTITY_FOR_CAPPUCCINO;
+        if(stockManager.getMilk() >= MILK_QUANTITY_FOR_CAPPUCCINO){   // done
+            stockManager.updateMilk(-MILK_QUANTITY_FOR_CAPPUCCINO);   // done
         }else{
             missingResources.append("Sorry, not enough milk\n");
         }
 
-        if(this.coffeeQuantity >= COFFEE_QUANTITY_FOR_CAPPUCCINO){
-            this.coffeeQuantity -= COFFEE_QUANTITY_FOR_CAPPUCCINO;
+        if(stockManager.getCoffee() >= COFFEE_QUANTITY_FOR_CAPPUCCINO){  // done
+            stockManager.updateCoffee(-COFFEE_QUANTITY_FOR_CAPPUCCINO);  // done
         }else{
             missingResources.append("Sorry, not enough coffee\n");
         }
 
-        if(this.disposableCups > 0){
-            this.disposableCups--;
+        if(stockManager.getDisposableCups() > 0){     // done
+            stockManager.updateCups(-1);    // done
         }else{
             missingResources.append("Sorry, not enough disposable cups\n");
         }
@@ -199,22 +193,26 @@ public class CoffeeMachine {
         }
     }
 
-    public void fill(){
+    public void fill(){                                        // done
         System.out.println("Write how many ml of water you want to add:");
         System.out.print("> ");
-        this.waterQuantity += Integer.parseInt(input.nextLine());
+        int addedWater = Integer.parseInt(input.nextLine());
+        stockManager.updateWater(addedWater);
 
         System.out.println("Write how many ml of milk you want to add:");
         System.out.print("> ");
-        this.milkQuantity += Integer.parseInt(input.nextLine());
+        int addedMilk = Integer.parseInt(input.nextLine());
+        stockManager.updateMilk(addedMilk);
 
         System.out.println("Write how many g of coffee you want to add:");
         System.out.print("> ");
-        this.coffeeQuantity += Integer.parseInt(input.nextLine());
+        int addedCoffee = Integer.parseInt(input.nextLine());
+        stockManager.updateCoffee(addedCoffee);
 
         System.out.println("Write how many disposable cups you want to add:");
         System.out.print("> ");
-        this.disposableCups += Integer.parseInt(input.nextLine());
+        int addedCups = Integer.parseInt(input.nextLine());
+        stockManager.updateCups(addedCups);
     }
 
     public void take(){
@@ -222,7 +220,7 @@ public class CoffeeMachine {
     }
 
     public void remaining(){                            // already done
-        String machineState = String.format("""
+        String resourceInventory = String.format("""
                 
                 The coffee machine has:
                 %d ml of water
@@ -230,8 +228,8 @@ public class CoffeeMachine {
                 %d g of coffee
                 %d disposable cups
                 $%d of money
-                """, waterQuantity, milkQuantity, coffeeQuantity, disposableCups, cashUnit.getBalance()); // a. done
-        System.out.print(machineState);
+                """, stockManager.getWater(), stockManager.getMilk(), stockManager.getCoffee(), stockManager.getDisposableCups(), cashUnit.getBalance()); // a. done
+        System.out.print(resourceInventory);
     }
 
     public void exit(){
