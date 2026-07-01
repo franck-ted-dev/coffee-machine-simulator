@@ -81,15 +81,23 @@ public class CoffeeMachine {
     }
 
     public void buyEspresso(){
-        final int WATER_QUANTITY_FOR_ESPRESSO = 250;
-        final int COFFEE_QUANTITY_FOR_ESPRESSO = 16;
-        final int PRICE_FOR_ESPRESSO = 4;
+        Drink espresso = new Drink("Espresso", 250, 0, 16, 4);
+        final int WATER_QUANTITY_FOR_ESPRESSO = espresso.getWaterQuantity();
+        final int MILK_QUANTITY_FOR_ESPRESSO = espresso.getMilkQuantity();
+        final int COFFEE_QUANTITY_FOR_ESPRESSO = espresso.getCoffeeQuantity();
+        final int PRICE_FOR_ESPRESSO = espresso.getPrice();
         StringBuilder missingResources = new StringBuilder();
 
         if(this.waterQuantity >= WATER_QUANTITY_FOR_ESPRESSO){
             this.waterQuantity -= WATER_QUANTITY_FOR_ESPRESSO;
         }else{
             missingResources.append("Sorry, not enough water\n");
+        }
+
+        if(this.milkQuantity >= MILK_QUANTITY_FOR_ESPRESSO){
+            this.milkQuantity -= MILK_QUANTITY_FOR_ESPRESSO;
+        }else{
+            missingResources.append("Sorry, not enough milk\n");
         }
 
         if(this.coffeeQuantity >= COFFEE_QUANTITY_FOR_ESPRESSO){
@@ -113,10 +121,11 @@ public class CoffeeMachine {
     }
 
     public void buyLatte(){
-        final int WATER_QUANTITY_FOR_LATTE = 250;
-        final int MILK_QUANTITY_FOR_LATTE = 75;
-        final int COFFEE_QUANTITY_FOR_LATTE = 20;
-        final int PRICE_FOR_LATTE = 7;
+        Drink latte = new Drink("Latte", 250, 75, 20, 7);
+        final int WATER_QUANTITY_FOR_LATTE = latte.getWaterQuantity();
+        final int MILK_QUANTITY_FOR_LATTE = latte.getMilkQuantity();
+        final int COFFEE_QUANTITY_FOR_LATTE = latte.getCoffeeQuantity();
+        final int PRICE_FOR_LATTE = latte.getPrice();
         StringBuilder missingResources = new StringBuilder();
 
         if(this.waterQuantity >= WATER_QUANTITY_FOR_LATTE){
