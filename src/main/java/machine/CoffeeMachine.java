@@ -1,5 +1,8 @@
 package machine;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class CoffeeMachine {
@@ -7,11 +10,15 @@ public class CoffeeMachine {
     private String choice;
     private final CashUnit cashUnit;
     private final StockManager stockManager;
+    private final DrinkMaker drinkMaker;
+    private final Map<Integer, Drink> drinkMenu;
 
     public CoffeeMachine() {
         this.input = new Scanner(System.in);
         this.cashUnit = new CashUnit();
         this.stockManager = new StockManager();
+        this.drinkMaker = new DrinkMaker(stockManager);
+        this.drinkMenu = new HashMap<>();
     }
 
     public void start(){
@@ -32,168 +39,78 @@ public class CoffeeMachine {
     }
 
     public void processMainMenuResponse(){
-        if(choice.equalsIgnoreCase("buy")){
-            this.buy();
-        }
+        choice = choice.toLowerCase();
 
-        if(choice.equalsIgnoreCase("fill")){
-            this.fill();
-        }
-
-        if(choice.equalsIgnoreCase("take")){
-            this.take();
-        }
-
-        if(choice.equalsIgnoreCase("remaining")){
-            this.remaining();
-        }
-
-        if(choice.equalsIgnoreCase("exit")){
-            this.exit();
-        }
-    }
-
-    public void buy(){
-        System.out.println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, 4 - to main menu:");
-        System.out.print("> ");
-        int drink = Integer.parseInt(input.nextLine());
-        switch (drink) {
-            case 1:
-                this.buyEspresso();
+        switch (choice){
+            case "buy":
+                buy();
                 break;
-            case 2:
-                this.buyLatte();
+            case "fill":
+                fill();
                 break;
-            case 3:
-                this.buyCappuccino();
+            case "take":
+                take();
                 break;
-            case 4:
+            case "remaining":
+                remaining();
                 break;
+            case "exit":
+                exit();
             default:
-                System.out.println("Invalid drink");
+                System.out.println("Invalid choice");
         }
     }
 
-    public void buyEspresso(){
-        Drink espresso = new Drink("Espresso", 250, 0, 16, 4);
-        final int WATER_QUANTITY_FOR_ESPRESSO = espresso.getWaterQuantity();
-        final int MILK_QUANTITY_FOR_ESPRESSO = espresso.getMilkQuantity();
-        final int COFFEE_QUANTITY_FOR_ESPRESSO = espresso.getCoffeeQuantity();
-        final int PRICE_FOR_ESPRESSO = espresso.getPrice();
-        StringBuilder missingResources = new StringBuilder();
-
-        if(stockManager.getWater() >= WATER_QUANTITY_FOR_ESPRESSO){  // done
-            stockManager.updateWater(-WATER_QUANTITY_FOR_ESPRESSO);  // done
-        }else{
-            missingResources.append("Sorry, not enough water\n");
+    public int processDrinkMenu(){
+        List<Drink> drinks = drinkMaker.getDrinks();
+        int index = 1;
+        for(Drink drink : drinks) {
+            drinkMenu.put(index, drink);
+            index++;
         }
-
-        if(stockManager.getMilk() >= MILK_QUANTITY_FOR_ESPRESSO){   // done
-            stockManager.updateMilk(-MILK_QUANTITY_FOR_ESPRESSO);   // done
-        }else{
-            missingResources.append("Sorry, not enough milk\n");
+        StringBuilder drinkList = new StringBuilder("\n");
+        drinkList.append("What do you want to buy ?\n");
+        for(int i : drinkMenu.keySet()) {
+            drinkList.append("\t")
+                    .append(i).append(" - ")
+                    .append(drinkMenu.get(i)).append("\n");
         }
-
-        if(stockManager.getCoffee() >= COFFEE_QUANTITY_FOR_ESPRESSO){   // done
-            stockManager.updateCoffee(-COFFEE_QUANTITY_FOR_ESPRESSO);   // done
-        }else{
-            missingResources.append("Sorry, not enough coffee\n");
+        drinkList.append("\t")
+                .append(index)
+                .append(" - back to main menu\n");
+        System.out.print(drinkList);
+        System.out.print("> ");
+        int choiceDrink = Integer.parseInt(input.nextLine());
+        if(choiceDrink == index){
+            choiceDrink = 0;
         }
-
-        if(stockManager.getDisposableCups() > 0){   // done
-            stockManager.updateCups(-1);  // done
-        }else{
-            missingResources.append("Sorry, not enough disposable cups\n");
-        }
-
-        if(missingResources.isEmpty()){
-            cashUnit.collectMoney(PRICE_FOR_ESPRESSO);  // CashUnit collects the money for the drink
-            System.out.println("Making you a espresso!");
-        }else{
-            System.out.print(missingResources);
-        }
+        return choiceDrink;
+    }
+    public void buy(){
+        int drinkChoice = processDrinkMenu();
+        buyDrink(drinkChoice);
     }
 
-    public void buyLatte(){
-        Drink latte = new Drink("Latte", 250, 75, 20, 7);
-        final int WATER_QUANTITY_FOR_LATTE = latte.getWaterQuantity();
-        final int MILK_QUANTITY_FOR_LATTE = latte.getMilkQuantity();
-        final int COFFEE_QUANTITY_FOR_LATTE = latte.getCoffeeQuantity();
-        final int PRICE_FOR_LATTE = latte.getPrice();
-        StringBuilder missingResources = new StringBuilder();
-
-        if(stockManager.getWater() >= WATER_QUANTITY_FOR_LATTE){  // done
-            stockManager.updateWater(-WATER_QUANTITY_FOR_LATTE);  // done
-        }else{
-            missingResources.append("Sorry, not enough water\n");
+    public void buyDrink(int choiceDrink){
+        if(choiceDrink == 0){  // case back to main menu
+            return;
         }
-
-        if(stockManager.getMilk() >= MILK_QUANTITY_FOR_LATTE){   // done
-            stockManager.updateMilk(-MILK_QUANTITY_FOR_LATTE);   // done
-        }else{
-            missingResources.append("Sorry, not enough milk\n");
+        if(!drinkMenu.containsKey(choiceDrink)){
+            System.out.println("Invalid choice");
+            return;
         }
-
-        if(stockManager.getCoffee() >= COFFEE_QUANTITY_FOR_LATTE){   // done
-            stockManager.updateCoffee(-COFFEE_QUANTITY_FOR_LATTE);   // done
+        Drink drink = drinkMenu.get(choiceDrink);
+        String drinkStatus = drinkMaker.makeDrink(drink);
+        if(drinkStatus.equalsIgnoreCase("okay")){
+            cashUnit.collectMoney(drink.getPrice());
+            System.out.println("Making you a " + drink + "!");
         }else{
-            missingResources.append("Sorry, not enough coffee\n");
-        }
-
-        if(stockManager.getDisposableCups() > 0){     // done
-            stockManager.updateCups(-1);    // done
-        }else{
-            missingResources.append("Sorry, not enough disposable cups\n");
-        }
-
-        if(missingResources.isEmpty()){
-            cashUnit.collectMoney(PRICE_FOR_LATTE);    // CashUnit collects the money for the drink
-            System.out.println("Making you a latte!");
-        }else{
-            System.out.print(missingResources);
-        }
-    }
-
-    public void buyCappuccino(){
-        final int WATER_QUANTITY_FOR_CAPPUCCINO = 200;
-        final int MILK_QUANTITY_FOR_CAPPUCCINO = 100;
-        final int COFFEE_QUANTITY_FOR_CAPPUCCINO = 12;
-        final int PRICE_FOR_CAPPUCCINO = 6;
-        StringBuilder missingResources = new StringBuilder();
-
-        if(stockManager.getWater() >= WATER_QUANTITY_FOR_CAPPUCCINO){   // done
-            stockManager.updateWater(-WATER_QUANTITY_FOR_CAPPUCCINO);   // done
-        }else{
-            missingResources.append("Sorry, not enough water\n");
-        }
-
-        if(stockManager.getMilk() >= MILK_QUANTITY_FOR_CAPPUCCINO){   // done
-            stockManager.updateMilk(-MILK_QUANTITY_FOR_CAPPUCCINO);   // done
-        }else{
-            missingResources.append("Sorry, not enough milk\n");
-        }
-
-        if(stockManager.getCoffee() >= COFFEE_QUANTITY_FOR_CAPPUCCINO){  // done
-            stockManager.updateCoffee(-COFFEE_QUANTITY_FOR_CAPPUCCINO);  // done
-        }else{
-            missingResources.append("Sorry, not enough coffee\n");
-        }
-
-        if(stockManager.getDisposableCups() > 0){     // done
-            stockManager.updateCups(-1);    // done
-        }else{
-            missingResources.append("Sorry, not enough disposable cups\n");
-        }
-
-        if(missingResources.isEmpty()){
-            cashUnit.collectMoney(PRICE_FOR_CAPPUCCINO);    // CashUnit collects the money for the drink
-            System.out.println("Making you a cappuccino!");
-        }else{
-            System.out.print(missingResources);
+            System.out.print(drinkStatus);
         }
     }
 
     public void fill(){                                        // done
+        System.out.println();
         System.out.println("Write how many ml of water you want to add:");
         System.out.print("> ");
         int addedWater = Integer.parseInt(input.nextLine());
@@ -216,7 +133,8 @@ public class CoffeeMachine {
     }
 
     public void take(){
-        System.out.println("I gave you " + cashUnit.takeMoney());  // already done
+        System.out.println();
+        System.out.println("I gave you $" + cashUnit.takeMoney());  // already done
     }
 
     public void remaining(){                            // already done

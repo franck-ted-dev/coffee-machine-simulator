@@ -15,7 +15,7 @@ public class Drink {
         this.price = price;
     }
 
-    public String getName() {
+    public String toString() {
         return name;
     }
 
