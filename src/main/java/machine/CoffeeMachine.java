@@ -7,17 +7,17 @@ public class CoffeeMachine {
     private int milkQuantity;
     private int coffeeQuantity;
     private int disposableCups;
-    private int balance;
     private final Scanner input;
     private String choice;
+    private CashUnit cashUnit;
 
     public CoffeeMachine() {
         this.waterQuantity = 400;
         this.milkQuantity = 540;
         this.coffeeQuantity = 120;
         this.disposableCups = 9;
-        this.balance = 550;
         this.input = new Scanner(System.in);
+        this.cashUnit = new CashUnit();
     }
 
     public void start(){
@@ -105,7 +105,7 @@ public class CoffeeMachine {
         }
 
         if(missingResources.isEmpty()){
-            this.balance += PRICE_FOR_ESPRESSO;
+            cashUnit.collectMoney(PRICE_FOR_ESPRESSO);  // CashUnit collects the money for the drink
             System.out.println("Making you a espresso!");
         }else{
             System.out.print(missingResources);
@@ -144,7 +144,7 @@ public class CoffeeMachine {
         }
 
         if(missingResources.isEmpty()){
-            this.balance += PRICE_FOR_LATTE;
+            cashUnit.collectMoney(PRICE_FOR_LATTE);    // CashUnit collects the money for the drink
             System.out.println("Making you a latte!");
         }else{
             System.out.print(missingResources);
@@ -183,7 +183,7 @@ public class CoffeeMachine {
         }
 
         if(missingResources.isEmpty()){
-            this.balance += PRICE_FOR_CAPPUCCINO;
+            cashUnit.collectMoney(PRICE_FOR_CAPPUCCINO);    // CashUnit collects the money for the drink
             System.out.println("Making you a cappuccino!");
         }else{
             System.out.print(missingResources);
@@ -209,11 +209,10 @@ public class CoffeeMachine {
     }
 
     public void take(){
-        System.out.println("I gave you " + this.balance);
-        this.balance = 0;
+        System.out.println("I gave you " + cashUnit.takeMoney());  // already done
     }
 
-    public void remaining(){
+    public void remaining(){                            // already done
         String machineState = String.format("""
                 
                 The coffee machine has:
@@ -222,7 +221,7 @@ public class CoffeeMachine {
                 %d g of coffee
                 %d disposable cups
                 $%d of money
-                """, waterQuantity, milkQuantity, coffeeQuantity, disposableCups, balance);
+                """, waterQuantity, milkQuantity, coffeeQuantity, disposableCups, cashUnit.getBalance()); // a. done
         System.out.print(machineState);
     }
 
