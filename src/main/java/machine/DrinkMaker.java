@@ -1,25 +1,10 @@
 package machine;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class DrinkMaker {
     private final StockManager stockManager;
-    private final List<Drink> drinks;
 
     public DrinkMaker(StockManager stockManager) {
         this.stockManager = stockManager;
-        this.drinks = new ArrayList<>();
-        Drink espresso = new Drink("Espresso", 250, 0, 16, 4);
-        Drink latte = new Drink("Latte", 250, 75, 20, 7);
-        Drink cappuccino = new Drink("Cappuccino", 200, 100, 12, 6);
-        drinks.add(espresso);
-        drinks.add(latte);
-        drinks.add(cappuccino);
-    }
-
-    public List<Drink> getDrinks() {
-        return drinks;
     }
 
     public String makeDrink(Drink drink) {

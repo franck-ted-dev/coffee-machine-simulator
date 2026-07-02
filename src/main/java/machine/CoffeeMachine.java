@@ -12,6 +12,7 @@ public class CoffeeMachine {
     private final StockManager stockManager;
     private final DrinkMaker drinkMaker;
     private final Map<Integer, Drink> drinkMenu;
+    private final DrinkCatalog drinkCatalog;    // recently added
 
     public CoffeeMachine() {
         this.input = new Scanner(System.in);
@@ -19,6 +20,7 @@ public class CoffeeMachine {
         this.stockManager = new StockManager();
         this.drinkMaker = new DrinkMaker(stockManager);
         this.drinkMenu = new HashMap<>();
+        this.drinkCatalog = new DrinkCatalog();   // recently added
     }
 
     public void start(){
@@ -62,7 +64,7 @@ public class CoffeeMachine {
     }
 
     public int processDrinkMenu(){
-        List<Drink> drinks = drinkMaker.getDrinks();
+        List<Drink> drinks = drinkCatalog.getDrinks();     // recently modified
         int index = 1;
         for(Drink drink : drinks) {
             drinkMenu.put(index, drink);
