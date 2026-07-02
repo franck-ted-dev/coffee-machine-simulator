@@ -1,4 +1,4 @@
-package machine;
+package machine.domain;
 
 public class Drink {
     private final String name;

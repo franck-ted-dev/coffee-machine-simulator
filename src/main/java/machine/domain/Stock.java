@@ -1,4 +1,4 @@
-package machine;
+package machine.domain;
 
 public class Stock {
     private int waterQuantity;

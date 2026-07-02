@@ -1,4 +1,4 @@
-package machine;
+package machine.domain;
 
 public class DrinkMaker {
     private final StockManager stockManager;
