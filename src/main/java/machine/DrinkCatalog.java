@@ -19,4 +19,12 @@ public class DrinkCatalog {
     public List<Drink> getDrinks() {
         return drinks;
     }
+
+    public boolean isAvailable(int choiceDrink) {
+        return choiceDrink < drinks.size() && choiceDrink >= 0;
+    }
+
+    public Drink getDrink(int choiceDrink) {
+        return drinks.get(choiceDrink);
+    }
 }

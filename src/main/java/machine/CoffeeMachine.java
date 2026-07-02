@@ -1,8 +1,6 @@
 package machine;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class CoffeeMachine {
@@ -11,7 +9,6 @@ public class CoffeeMachine {
     private final CashUnit cashUnit;
     private final StockManager stockManager;
     private final DrinkMaker drinkMaker;
-    private final Map<Integer, Drink> drinkMenu;
     private final DrinkCatalog drinkCatalog;    // recently added
 
     public CoffeeMachine() {
@@ -19,7 +16,6 @@ public class CoffeeMachine {
         this.cashUnit = new CashUnit();
         this.stockManager = new StockManager();
         this.drinkMaker = new DrinkMaker(stockManager);
-        this.drinkMenu = new HashMap<>();
         this.drinkCatalog = new DrinkCatalog();   // recently added
     }
 
@@ -66,16 +62,14 @@ public class CoffeeMachine {
     public int processDrinkMenu(){
         List<Drink> drinks = drinkCatalog.getDrinks();     // recently modified
         int index = 1;
-        for(Drink drink : drinks) {
-            drinkMenu.put(index, drink);
-            index++;
-        }
+
         StringBuilder drinkList = new StringBuilder("\n");
         drinkList.append("What do you want to buy ?\n");
-        for(int i : drinkMenu.keySet()) {
+        for(Drink ignored : drinks) {
             drinkList.append("\t")
-                    .append(i).append(" - ")
-                    .append(drinkMenu.get(i)).append("\n");
+                    .append(index).append(" - ")
+                    .append(drinks.get(index-1)).append("\n");
+            index++;
         }
         drinkList.append("\t")
                 .append(index)
@@ -88,6 +82,7 @@ public class CoffeeMachine {
         }
         return choiceDrink;
     }
+
     public void buy(){
         int drinkChoice = processDrinkMenu();
         buyDrink(drinkChoice);
@@ -97,18 +92,22 @@ public class CoffeeMachine {
         if(choiceDrink == 0){  // case back to main menu
             return;
         }
-        if(!drinkMenu.containsKey(choiceDrink)){
-            System.out.println("Invalid choice");
+
+        choiceDrink = choiceDrink - 1;   // handle the indexGap
+
+        if(drinkCatalog.isAvailable(choiceDrink)){
+            Drink drink = drinkCatalog.getDrink(choiceDrink);
+            String drinkStatus = drinkMaker.makeDrink(drink);
+            if(drinkStatus.equalsIgnoreCase("okay")){
+                cashUnit.collectMoney(drink.getPrice());
+                System.out.println("Making you a " + drink + "!");
+            }else{
+                System.out.print(drinkStatus);
+            }
             return;
         }
-        Drink drink = drinkMenu.get(choiceDrink);
-        String drinkStatus = drinkMaker.makeDrink(drink);
-        if(drinkStatus.equalsIgnoreCase("okay")){
-            cashUnit.collectMoney(drink.getPrice());
-            System.out.println("Making you a " + drink + "!");
-        }else{
-            System.out.print(drinkStatus);
-        }
+
+        System.out.println("Invalid choice");
     }
 
     public void fill(){                                        // done
