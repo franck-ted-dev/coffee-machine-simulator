@@ -1,10 +1,10 @@
 package machine.domain;
 
 public class DrinkMaker {
-    private final StockManager stockManager;
+    private final Stock stock;
 
-    public DrinkMaker(StockManager stockManager) {
-        this.stockManager = stockManager;
+    public DrinkMaker(Stock stock) {
+        this.stock = stock;
     }
 
     public String makeDrink(Drink drink) {
@@ -13,27 +13,27 @@ public class DrinkMaker {
         final int COFFEE_QUANTITY_FOR_DRINK = drink.getCoffeeQuantity();
         StringBuilder drinkStatus = new StringBuilder();
 
-        if(stockManager.getWater() < WATER_QUANTITY_FOR_DRINK){  // done
+        if(stock.getWaterQuantity() < WATER_QUANTITY_FOR_DRINK){  // done
             drinkStatus.append("Sorry, not enough water\n");
         }
 
-        if(stockManager.getMilk() < MILK_QUANTITY_FOR_DRINK){   // done
+        if(stock.getMilkQuantity() < MILK_QUANTITY_FOR_DRINK){   // done
             drinkStatus.append("Sorry, not enough milk\n");
         }
 
-        if(stockManager.getCoffee() < COFFEE_QUANTITY_FOR_DRINK){   // done
+        if(stock.getCoffeeQuantity() < COFFEE_QUANTITY_FOR_DRINK){   // done
             drinkStatus.append("Sorry, not enough coffee\n");
         }
 
-        if(stockManager.getDisposableCups() == 0){   // done
+        if(stock.getDisposableCups() == 0){   // done
             drinkStatus.append("Sorry, not enough disposable cups\n");
         }
 
         if(drinkStatus.isEmpty()){
-            stockManager.updateWater(-WATER_QUANTITY_FOR_DRINK);  // done
-            stockManager.updateMilk(-MILK_QUANTITY_FOR_DRINK);   // done
-            stockManager.updateCoffee(-COFFEE_QUANTITY_FOR_DRINK);   // done
-            stockManager.updateCups(-1);  // done
+            stock.updateWaterQuantity(-WATER_QUANTITY_FOR_DRINK);  // done
+            stock.updateMilkQuantity(-MILK_QUANTITY_FOR_DRINK);   // done
+            stock.updateCoffeeQuantity(-COFFEE_QUANTITY_FOR_DRINK);   // done
+            stock.updateDisposableCups(-1);  // done
             drinkStatus.append("OKAY");
         }
 

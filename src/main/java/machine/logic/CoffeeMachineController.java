@@ -5,15 +5,15 @@ import machine.ui.ConsoleUI;
 
 public class CoffeeMachineController {
     private final CashUnit cashUnit;
-    private final StockManager stockManager;
+    private final Stock stock;
     private final DrinkMaker drinkMaker;
     private final DrinkCatalog drinkCatalog;
     private final ConsoleUI console;
 
     public CoffeeMachineController(ConsoleUI console) {
         this.cashUnit = new CashUnit();
-        this.stockManager = new StockManager();
-        this.drinkMaker = new DrinkMaker(stockManager);
+        this.stock = new Stock();
+        this.drinkMaker = new DrinkMaker(stock);
         this.drinkCatalog = new DrinkCatalog();
         this.console = console;
     }
@@ -79,7 +79,7 @@ public class CoffeeMachineController {
                 """;
         String response = console.displayMessageAndReplyResponse(message);
         int addedWater = Integer.parseInt(response);
-        stockManager.updateWater(addedWater);
+        stock.updateWaterQuantity(addedWater);
 
         message = """
                 
@@ -87,7 +87,7 @@ public class CoffeeMachineController {
                 """;
         response = console.displayMessageAndReplyResponse(message);
         int addedMilk = Integer.parseInt(response);
-        stockManager.updateMilk(addedMilk);
+        stock.updateMilkQuantity(addedMilk);
 
         message = """
                 
@@ -95,7 +95,7 @@ public class CoffeeMachineController {
                 """;
         response = console.displayMessageAndReplyResponse(message);
         int addedCoffee = Integer.parseInt(response);
-        stockManager.updateCoffee(addedCoffee);
+        stock.updateCoffeeQuantity(addedCoffee);
 
         message = """
                 
@@ -103,7 +103,7 @@ public class CoffeeMachineController {
                 """;
         response = console.displayMessageAndReplyResponse(message);
         int addedCups = Integer.parseInt(response);
-        stockManager.updateCups(addedCups);
+        stock.updateDisposableCups(addedCups);
     }
 
     public void take(){
@@ -123,7 +123,7 @@ public class CoffeeMachineController {
                 %d g of coffee
                 %d disposable cups
                 $%d of money
-                """, stockManager.getWater(), stockManager.getMilk(), stockManager.getCoffee(), stockManager.getDisposableCups(), cashUnit.getBalance());
+                """, stock.getWaterQuantity(), stock.getMilkQuantity(), stock.getCoffeeQuantity(), stock.getDisposableCups(), cashUnit.getBalance());
         console.displayMessage(resourceInventory);
     }
 
