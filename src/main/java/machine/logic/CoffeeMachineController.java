@@ -6,16 +6,15 @@ import machine.ui.ConsoleUI;
 public class CoffeeMachineController {
     private final CashUnit cashUnit;
     private final Stock stock;
-    private final DrinkMaker drinkMaker;
-    private final DrinkCatalog drinkCatalog;
     private final ConsoleUI console;
+    private final BuyService buyService;
 
-    public CoffeeMachineController(ConsoleUI console) {
-        this.cashUnit = new CashUnit();
-        this.stock = new Stock();
-        this.drinkMaker = new DrinkMaker(stock);
-        this.drinkCatalog = new DrinkCatalog();
+    public CoffeeMachineController(ConsoleUI console, DrinkMaker drinkMaker,
+                                   DrinkCatalog drinkCatalog, CashUnit cashUnit, Stock stock) {
+        this.cashUnit = cashUnit;
+        this.stock = stock;
         this.console = console;
+        this.buyService = new BuyService(drinkCatalog, drinkMaker, cashUnit, console);
     }
 
     public void processMainMenuResponse(String mainMenuResponse) {
@@ -44,32 +43,7 @@ public class CoffeeMachineController {
 
     public void buy(){
         String desiredDrink = console.displayDrinkMenu();
-        int drinkChoice = Integer.parseInt(desiredDrink);
-        buyDrink(drinkChoice);
-    }
-
-    public void buyDrink(int choiceDrink){
-        if(choiceDrink == 4){  // case back to main menu
-            return;
-        }
-
-        choiceDrink = choiceDrink - 1;   // handle the indexGap
-
-        if(drinkCatalog.isAvailable(choiceDrink)){
-            Drink drink = drinkCatalog.getDrink(choiceDrink);
-            String drinkStatus = drinkMaker.makeDrink(drink);
-            if(drinkStatus.equalsIgnoreCase("okay")){
-                cashUnit.collectMoney(drink.getPrice());
-                String message = "Making you a " + drink + "!\n";
-                console.displayMessage(message);
-            }else{
-                console.displayMessage(drinkStatus);
-            }
-            return;
-        }
-
-        String message = "\nInvalid choice\n";
-        console.displayMessage(message);
+        buyService.buy(desiredDrink);
     }
 
     public void fill(){

@@ -7,37 +7,33 @@ public class DrinkMaker {
         this.stock = stock;
     }
 
-    public String makeDrink(Drink drink) {
+    public DrinkStatus makeDrink(Drink drink) {
         final int WATER_QUANTITY_FOR_DRINK = drink.getWaterQuantity();
         final int MILK_QUANTITY_FOR_DRINK = drink.getMilkQuantity();
         final int COFFEE_QUANTITY_FOR_DRINK = drink.getCoffeeQuantity();
-        StringBuilder drinkStatus = new StringBuilder();
 
         if(stock.getWaterQuantity() < WATER_QUANTITY_FOR_DRINK){  // done
-            drinkStatus.append("Sorry, not enough water\n");
+            return DrinkStatus.NOT_ENOUGH_WATER;
         }
 
         if(stock.getMilkQuantity() < MILK_QUANTITY_FOR_DRINK){   // done
-            drinkStatus.append("Sorry, not enough milk\n");
+            return DrinkStatus.NOT_ENOUGH_MILK;
         }
 
         if(stock.getCoffeeQuantity() < COFFEE_QUANTITY_FOR_DRINK){   // done
-            drinkStatus.append("Sorry, not enough coffee\n");
+            return DrinkStatus.NOT_ENOUGH_COFFEE;
         }
 
         if(stock.getDisposableCups() == 0){   // done
-            drinkStatus.append("Sorry, not enough disposable cups\n");
+            return DrinkStatus.NO_CUPS;
         }
 
-        if(drinkStatus.isEmpty()){
-            stock.updateWaterQuantity(-WATER_QUANTITY_FOR_DRINK);  // done
-            stock.updateMilkQuantity(-MILK_QUANTITY_FOR_DRINK);   // done
-            stock.updateCoffeeQuantity(-COFFEE_QUANTITY_FOR_DRINK);   // done
-            stock.updateDisposableCups(-1);  // done
-            drinkStatus.append("OKAY");
-        }
+        stock.updateWaterQuantity(-WATER_QUANTITY_FOR_DRINK);  // done
+        stock.updateMilkQuantity(-MILK_QUANTITY_FOR_DRINK);   // done
+        stock.updateCoffeeQuantity(-COFFEE_QUANTITY_FOR_DRINK);   // done
+        stock.updateDisposableCups(-1);  // done
 
-        return drinkStatus.toString();
+        return DrinkStatus.OKAY;
     }
 
 }
