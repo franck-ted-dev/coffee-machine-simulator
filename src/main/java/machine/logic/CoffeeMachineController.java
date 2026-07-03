@@ -24,16 +24,17 @@ public class CoffeeMachineController {
 
         switch (mainMenuResponse){
             case "buy":
-                buy();
+                String desiredDrink = console.displayDrinkMenu();
+                buyService.execute(desiredDrink);
                 break;
             case "fill":
-                fill();
+                fillService.execute();
                 break;
             case "take":
-                take();
+                takeService.execute();
                 break;
             case "remaining":
-                remaining();
+                resourceInventoryService.execute();
                 break;
             case "exit":
                 exit();
@@ -41,23 +42,6 @@ public class CoffeeMachineController {
                 String message = "\nInvalid menu response\n";
                 console.displayMessage(message);
         }
-    }
-
-    public void buy(){
-        String desiredDrink = console.displayDrinkMenu();
-        buyService.buy(desiredDrink);
-    }
-
-    public void fill(){
-        fillService.fill();
-    }
-
-    public void take(){
-        takeService.execute();
-    }
-
-    public void remaining(){
-        resourceInventoryService.execute();
     }
 
     public void exit(){

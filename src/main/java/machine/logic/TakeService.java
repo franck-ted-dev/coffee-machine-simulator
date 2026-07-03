@@ -13,10 +13,6 @@ public class TakeService {
     }
 
     public void execute(){
-        take();
-    }
-
-    private void take(){
         String message = """
                 
                 I gave you $%d

@@ -16,12 +16,12 @@ public class BuyService {
         this.console = console;
     }
 
-    public void buy(String desiredDrink){
+    public void execute(String desiredDrink){
         int drinkChoice = Integer.parseInt(desiredDrink);
         processDrinkStatus(buyDrink(drinkChoice));
     }
 
-    public DrinkStatus buyDrink(int choiceDrink){
+    private DrinkStatus buyDrink(int choiceDrink){
         choiceDrink = choiceDrink - 1;   // handle the indexGap
 
         if(drinkCatalog.isAvailable(choiceDrink)){
@@ -36,7 +36,7 @@ public class BuyService {
         }
     }
 
-    public void processDrinkStatus(DrinkStatus drinkStatus){
+    private void processDrinkStatus(DrinkStatus drinkStatus){
         String message;
         switch (drinkStatus){
             case OKAY:

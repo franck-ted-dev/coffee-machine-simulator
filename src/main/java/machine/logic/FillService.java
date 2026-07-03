@@ -12,7 +12,7 @@ public class FillService {
         this.stock = stock;
     }
 
-    public void fill(){
+    public void execute(){
         String message = """
                 
                 Write how many ml of water you want to add:

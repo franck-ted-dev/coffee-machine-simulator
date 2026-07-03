@@ -15,11 +15,8 @@ public class ResourceInventoryService {
         this.console = console;
     }
 
-    public void execute(){
-        remaining();
-    }
 
-    private void remaining(){
+    public void execute() {
         String resourceInventory = String.format("""
                 
                 The coffee machine has:
