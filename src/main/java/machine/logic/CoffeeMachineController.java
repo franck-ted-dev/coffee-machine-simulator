@@ -10,16 +10,17 @@ public class CoffeeMachineController {
     private final TakeService takeService;
     private final ResourceInventoryService resourceInventoryService;
 
-    public CoffeeMachineController(ConsoleUI console, DrinkMaker drinkMaker,
-                                   DrinkCatalog drinkCatalog, CashUnit cashUnit, Stock stock) {
+    public CoffeeMachineController(ConsoleUI console, BuyService buyService,
+                                   FillService fillService, TakeService takeService,
+                                   ResourceInventoryService resourceInventoryService) {
         this.console = console;
-        this.buyService = new BuyService(drinkCatalog, drinkMaker, cashUnit, console);
-        this.fillService = new FillService(console, stock);
-        this.takeService = new TakeService(cashUnit, console);
-        this.resourceInventoryService = new ResourceInventoryService(stock, cashUnit, console);
+        this.buyService = buyService;
+        this.fillService = fillService;
+        this.takeService = takeService;
+        this.resourceInventoryService = resourceInventoryService;
     }
 
-    public void processMainMenuResponse(String mainMenuResponse) {
+    public boolean processMainMenuResponse(String mainMenuResponse) {
         mainMenuResponse = mainMenuResponse.toLowerCase();
 
         switch (mainMenuResponse){
@@ -37,14 +38,11 @@ public class CoffeeMachineController {
                 resourceInventoryService.execute();
                 break;
             case "exit":
-                exit();
+                return false;
             default:
                 String message = "\nInvalid menu response\n";
                 console.displayMessage(message);
         }
-    }
-
-    public void exit(){
-        System.exit(0);
+        return true;
     }
 }
