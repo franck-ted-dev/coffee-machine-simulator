@@ -9,6 +9,7 @@ public class CoffeeMachineController {
     private final ConsoleUI console;
     private final BuyService buyService;
     private final FillService fillService;
+    private final TakeService takeService;
 
     public CoffeeMachineController(ConsoleUI console, DrinkMaker drinkMaker,
                                    DrinkCatalog drinkCatalog, CashUnit cashUnit, Stock stock) {
@@ -17,6 +18,7 @@ public class CoffeeMachineController {
         this.console = console;
         this.buyService = new BuyService(drinkCatalog, drinkMaker, cashUnit, console);
         this.fillService = new FillService(console, stock);
+        this.takeService = new TakeService(cashUnit, console);
 
     }
 
@@ -54,11 +56,7 @@ public class CoffeeMachineController {
     }
 
     public void take(){
-        String message = """
-                
-                I gave you $%d
-                """.formatted(cashUnit.takeMoney());
-        console.displayMessage(message);
+        takeService.execute();
     }
 
     public void remaining(){
