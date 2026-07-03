@@ -8,6 +8,7 @@ public class CoffeeMachineController {
     private final Stock stock;
     private final ConsoleUI console;
     private final BuyService buyService;
+    private final FillService fillService;
 
     public CoffeeMachineController(ConsoleUI console, DrinkMaker drinkMaker,
                                    DrinkCatalog drinkCatalog, CashUnit cashUnit, Stock stock) {
@@ -15,6 +16,8 @@ public class CoffeeMachineController {
         this.stock = stock;
         this.console = console;
         this.buyService = new BuyService(drinkCatalog, drinkMaker, cashUnit, console);
+        this.fillService = new FillService(console, stock);
+
     }
 
     public void processMainMenuResponse(String mainMenuResponse) {
@@ -47,37 +50,7 @@ public class CoffeeMachineController {
     }
 
     public void fill(){
-        String message = """
-                
-                Write how many ml of water you want to add:
-                """;
-        String response = console.displayMessageAndReplyResponse(message);
-        int addedWater = Integer.parseInt(response);
-        stock.updateWaterQuantity(addedWater);
-
-        message = """
-                
-                Write how many ml of milk you want to add:
-                """;
-        response = console.displayMessageAndReplyResponse(message);
-        int addedMilk = Integer.parseInt(response);
-        stock.updateMilkQuantity(addedMilk);
-
-        message = """
-                
-                Write how many g of coffee you want to add:
-                """;
-        response = console.displayMessageAndReplyResponse(message);
-        int addedCoffee = Integer.parseInt(response);
-        stock.updateCoffeeQuantity(addedCoffee);
-
-        message = """
-                
-                Write how many disposable cups you want to add:
-                """;
-        response = console.displayMessageAndReplyResponse(message);
-        int addedCups = Integer.parseInt(response);
-        stock.updateDisposableCups(addedCups);
+        fillService.fill();
     }
 
     public void take(){
