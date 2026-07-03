@@ -4,22 +4,19 @@ import machine.domain.*;
 import machine.ui.ConsoleUI;
 
 public class CoffeeMachineController {
-    private final CashUnit cashUnit;
-    private final Stock stock;
     private final ConsoleUI console;
     private final BuyService buyService;
     private final FillService fillService;
     private final TakeService takeService;
+    private final ResourceInventoryService resourceInventoryService;
 
     public CoffeeMachineController(ConsoleUI console, DrinkMaker drinkMaker,
                                    DrinkCatalog drinkCatalog, CashUnit cashUnit, Stock stock) {
-        this.cashUnit = cashUnit;
-        this.stock = stock;
         this.console = console;
         this.buyService = new BuyService(drinkCatalog, drinkMaker, cashUnit, console);
         this.fillService = new FillService(console, stock);
         this.takeService = new TakeService(cashUnit, console);
-
+        this.resourceInventoryService = new ResourceInventoryService(stock, cashUnit, console);
     }
 
     public void processMainMenuResponse(String mainMenuResponse) {
@@ -60,16 +57,7 @@ public class CoffeeMachineController {
     }
 
     public void remaining(){
-        String resourceInventory = String.format("""
-                
-                The coffee machine has:
-                %d ml of water
-                %d ml of milk
-                %d g of coffee
-                %d disposable cups
-                $%d of money
-                """, stock.getWaterQuantity(), stock.getMilkQuantity(), stock.getCoffeeQuantity(), stock.getDisposableCups(), cashUnit.getBalance());
-        console.displayMessage(resourceInventory);
+        resourceInventoryService.execute();
     }
 
     public void exit(){
