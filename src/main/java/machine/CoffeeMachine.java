@@ -2,7 +2,7 @@ package machine;
 
 import machine.domain.CashUnit;
 import machine.domain.DrinkCatalog;
-import machine.domain.DrinkMaker;
+import machine.logic.DrinkMaker;
 import machine.domain.Stock;
 import machine.logic.*;
 import machine.ui.ConsoleUI;

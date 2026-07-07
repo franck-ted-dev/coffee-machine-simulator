@@ -1,12 +1,16 @@
 package machine.ui;
 
+import machine.request.RefillRequest;
+
 import java.util.Scanner;
 
 public class ConsoleUI {
     private final Scanner input;
+    private final InputParser parser;
 
     public ConsoleUI() {
         this.input = new Scanner(System.in);
+        this.parser = new InputParser();
     }
 
     public String displayMainMenu(){
@@ -39,27 +43,32 @@ public class ConsoleUI {
         System.out.print(message);
     }
 
-    public int askWater(){
+    public RefillRequest askRefill(){
+        int water = parser.toPositiveInt(askWater());
+        int milch = parser.toPositiveInt(askMilk());
+        int coffee = parser.toPositiveInt(askCoffee());
+        int cups = parser.toPositiveInt(askCup());
+
+        return new RefillRequest(water, milch, coffee, cups);
+    }
+
+    public String askWater(){
         String message = "\nHow many ml of water do you want to add?\n";
-        String answer = displayMessageAndReplyResponse(message);
-        return Integer.parseInt(answer);
+        return displayMessageAndReplyResponse(message);
     }
 
-    public int askMilch(){
-        String message = "\nHow many ml of milch do you want to add?\n";
-        String answer = displayMessageAndReplyResponse(message);
-        return Integer.parseInt(answer);
+    public String askMilk(){
+        String message = "\nHow many ml of milk do you want to add?\n";
+        return displayMessageAndReplyResponse(message);
     }
 
-    public int askCoffee(){
-        String message = "\nHow many mg of coffee do you want to add?\n";
-        String answer = displayMessageAndReplyResponse(message);
-        return Integer.parseInt(answer);
+    public String askCoffee(){
+        String message = "\nHow many g of coffee do you want to add?\n";
+        return displayMessageAndReplyResponse(message);
     }
 
-    public int askCup(){
+    public String askCup(){
         String message = "\nHow many disposable cups do you want to add?\n";
-        String answer = displayMessageAndReplyResponse(message);
-        return Integer.parseInt(answer);
+        return displayMessageAndReplyResponse(message);
     }
 }

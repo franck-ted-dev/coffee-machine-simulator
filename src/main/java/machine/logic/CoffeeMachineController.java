@@ -1,7 +1,6 @@
 package machine.logic;
 
 import machine.domain.*;
-import machine.request.RefillRequest;
 import machine.ui.ConsoleUI;
 import machine.ui.DrinkStatusMessageMapper;
 
@@ -31,18 +30,20 @@ public class CoffeeMachineController {
         switch (mainMenuResponse){
             case "buy":
                 String desiredDrink = console.displayDrinkMenu();
-                int drinkChoice = Integer.parseInt(desiredDrink);
-                DrinkStatus drinkStatus = buyService.buyDrink(drinkChoice);
-                console.displayMessage(drinkStatusMessageMapper.toMessage(drinkStatus));
+
+                if(desiredDrink.equals("4")){
+                    break;
+                }
+                try {
+                    int drinkChoice = Integer.parseInt(desiredDrink);
+                    DrinkStatus drinkStatus = buyService.buyDrink(drinkChoice);
+                    console.displayMessage(drinkStatusMessageMapper.toMessage(drinkStatus));
+                }catch (NumberFormatException e){
+                    console.displayMessage("\nInvalid drink choice!\n");
+                }
                 break;
             case "fill":
-                int water = console.askWater();
-                int milch  = console.askMilch();
-                int coffee = console.askCoffee();
-                int cups = console.askCup();
-
-                RefillRequest refillRequest = new RefillRequest(water, milch, coffee, cups);
-                fillService.fill(refillRequest);
+                fillService.fill(console.askRefill());
                 break;
             case "take":
                 takeService.execute();

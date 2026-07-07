@@ -1,4 +1,8 @@
-package machine.domain;
+package machine.logic;
+
+import machine.domain.Drink;
+import machine.domain.DrinkStatus;
+import machine.domain.Stock;
 
 public class DrinkMaker {
     private final Stock stock;

@@ -10,7 +10,7 @@ public class DrinkStatusMessageMapper {
             case NOT_ENOUGH_MILK -> "\nNot enough milk!\n";
             case NOT_ENOUGH_COFFEE ->  "\nNot enough coffee!\n";
             case NO_CUPS ->  "\nNot enough disposable cups!\n";
-            case INVALID_DRINK -> "\nInvalid choice!\n";
+            case INVALID_DRINK -> "\nInvalid drink choice!\n";
             case BACK_TO_MENU -> "";
         };
     }
