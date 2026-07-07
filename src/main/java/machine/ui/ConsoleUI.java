@@ -71,4 +71,9 @@ public class ConsoleUI {
         String message = "\nHow many disposable cups do you want to add?\n";
         return displayMessageAndReplyResponse(message);
     }
+
+    public void displayBalance(int balance){
+        String message = "\nI gave you $"  + balance + "\n";
+        displayMessage(message);
+    }
 }
