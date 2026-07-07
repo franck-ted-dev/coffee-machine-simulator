@@ -6,6 +6,7 @@ import machine.domain.DrinkMaker;
 import machine.domain.Stock;
 import machine.logic.*;
 import machine.ui.ConsoleUI;
+import machine.ui.DrinkStatusMessageMapper;
 
 public class CoffeeMachine {
     private final CoffeeMachineController controller;
@@ -17,11 +18,13 @@ public class CoffeeMachine {
         DrinkCatalog drinkCatalog = new DrinkCatalog();
         Stock stock = new Stock();
         DrinkMaker drinkMaker = new DrinkMaker(stock);
-        BuyService buyService = new BuyService(drinkCatalog, drinkMaker, cashUnit, console);
+        DrinkStatusMessageMapper drinkStatusMessageMapper = new DrinkStatusMessageMapper();
+        BuyService buyService = new BuyService(drinkCatalog, drinkMaker, cashUnit);
         FillService fillService = new FillService(console, stock);
         TakeService takeService = new TakeService(cashUnit, console);
         ResourceInventoryService resourceInventoryService = new ResourceInventoryService(stock, cashUnit, console);
-        this.controller = new CoffeeMachineController(console, buyService, fillService, takeService, resourceInventoryService);
+        this.controller = new CoffeeMachineController(console, buyService, fillService, takeService,
+                                                      resourceInventoryService, drinkStatusMessageMapper);
     }
 
     public void start(){

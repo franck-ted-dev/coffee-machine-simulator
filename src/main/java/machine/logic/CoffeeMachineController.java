@@ -2,6 +2,7 @@ package machine.logic;
 
 import machine.domain.*;
 import machine.ui.ConsoleUI;
+import machine.ui.DrinkStatusMessageMapper;
 
 public class CoffeeMachineController {
     private final ConsoleUI console;
@@ -9,15 +10,18 @@ public class CoffeeMachineController {
     private final FillService fillService;
     private final TakeService takeService;
     private final ResourceInventoryService resourceInventoryService;
+    private final DrinkStatusMessageMapper drinkStatusMessageMapper;
 
     public CoffeeMachineController(ConsoleUI console, BuyService buyService,
                                    FillService fillService, TakeService takeService,
-                                   ResourceInventoryService resourceInventoryService) {
+                                   ResourceInventoryService resourceInventoryService,
+                                   DrinkStatusMessageMapper drinkStatusMessageMapper) {
         this.console = console;
         this.buyService = buyService;
         this.fillService = fillService;
         this.takeService = takeService;
         this.resourceInventoryService = resourceInventoryService;
+        this.drinkStatusMessageMapper = drinkStatusMessageMapper;
     }
 
     public boolean processMainMenuResponse(String mainMenuResponse) {
@@ -26,7 +30,9 @@ public class CoffeeMachineController {
         switch (mainMenuResponse){
             case "buy":
                 String desiredDrink = console.displayDrinkMenu();
-                buyService.execute(desiredDrink);
+                int drinkChoice = Integer.parseInt(desiredDrink);
+                DrinkStatus drinkStatus = buyService.buyDrink(drinkChoice);
+                console.displayMessage(drinkStatusMessageMapper.toMessage(drinkStatus));
                 break;
             case "fill":
                 fillService.execute();
