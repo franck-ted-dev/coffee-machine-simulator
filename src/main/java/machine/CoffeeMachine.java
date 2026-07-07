@@ -22,7 +22,7 @@ public class CoffeeMachine {
         BuyService buyService = new BuyService(drinkCatalog, drinkMaker, cashUnit);
         FillService fillService = new FillService(stock);
         TakeService takeService = new TakeService(cashUnit);
-        ResourceInventoryService resourceInventoryService = new ResourceInventoryService(stock, cashUnit, console);
+        ResourceInventoryService resourceInventoryService = new ResourceInventoryService(stock, cashUnit);
         this.controller = new CoffeeMachineController(console, buyService, fillService, takeService,
                                                       resourceInventoryService, drinkStatusMessageMapper);
     }

@@ -9,7 +9,7 @@ public class TakeService {
         this.cashUnit = cashUnit;
     }
 
-    public int takeMoney(){
+    public int take(){
         return cashUnit.takeMoney();
     }
 }

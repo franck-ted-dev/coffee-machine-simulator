@@ -1,6 +1,7 @@
 package machine.ui;
 
 import machine.request.RefillRequest;
+import machine.response.ResourceInventoryResponse;
 
 import java.util.Scanner;
 
@@ -72,8 +73,22 @@ public class ConsoleUI {
         return displayMessageAndReplyResponse(message);
     }
 
-    public void displayBalance(int balance){
+    public void displayCashTaken(int balance){
         String message = "\nI gave you $"  + balance + "\n";
+        displayMessage(message);
+    }
+
+    public void displayInventory(ResourceInventoryResponse response){
+        String message = String.format("""
+                
+                The coffee machine has:
+                %d ml of water
+                %d ml of milk
+                %d g of coffee
+                %d disposable cups
+                $%d of money
+                """, response.water(), response.milk(), response.coffee(), response.cups(), response.money());
+
         displayMessage(message);
     }
 }

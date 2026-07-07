@@ -46,10 +46,10 @@ public class CoffeeMachineController {
                 fillService.fill(console.askRefill());
                 break;
             case "take":
-                console.displayBalance(takeService.takeMoney());
+                console.displayCashTaken(takeService.take());
                 break;
             case "remaining":
-                resourceInventoryService.execute();
+                console.displayInventory(resourceInventoryService.getInventory());
                 break;
             case "exit":
                 return false;
