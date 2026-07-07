@@ -29,6 +29,36 @@ public class Stock {
         return disposableCups;
     }
 
+    public boolean hasEnoughWater(int amount){
+        return waterQuantity >=  amount;
+    }
+
+    public boolean hasEnoughMilk(int amount){
+        return milkQuantity >=  amount;
+    }
+
+    public boolean hasEnoughCoffee(int amount){
+        return coffeeQuantity >=  amount;
+    }
+
+    public boolean hasDisposableCups(){
+        return disposableCups > 0;
+    }
+
+    public void add(int water, int milk, int coffee, int disposableCups){
+        this.waterQuantity += water;
+        this.milkQuantity += milk;
+        this.coffeeQuantity += coffee;
+        this.disposableCups += disposableCups;
+    }
+
+    public void consume(int water, int milk, int coffee, int disposableCups){
+        this.waterQuantity -= water;
+        this.milkQuantity -= milk;
+        this.coffeeQuantity -= coffee;
+        this.disposableCups -= disposableCups;
+    }
+
     public void updateWaterQuantity(int waterQuantity) {
         this.waterQuantity += waterQuantity;
     }
