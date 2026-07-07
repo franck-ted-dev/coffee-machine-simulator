@@ -39,4 +39,27 @@ public class ConsoleUI {
         System.out.print(message);
     }
 
+    public int askWater(){
+        String message = "\nHow many ml of water do you want to add?\n";
+        String answer = displayMessageAndReplyResponse(message);
+        return Integer.parseInt(answer);
+    }
+
+    public int askMilch(){
+        String message = "\nHow many ml of milch do you want to add?\n";
+        String answer = displayMessageAndReplyResponse(message);
+        return Integer.parseInt(answer);
+    }
+
+    public int askCoffee(){
+        String message = "\nHow many mg of coffee do you want to add?\n";
+        String answer = displayMessageAndReplyResponse(message);
+        return Integer.parseInt(answer);
+    }
+
+    public int askCup(){
+        String message = "\nHow many disposable cups do you want to add?\n";
+        String answer = displayMessageAndReplyResponse(message);
+        return Integer.parseInt(answer);
+    }
 }

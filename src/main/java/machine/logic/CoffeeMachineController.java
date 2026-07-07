@@ -1,6 +1,7 @@
 package machine.logic;
 
 import machine.domain.*;
+import machine.request.RefillRequest;
 import machine.ui.ConsoleUI;
 import machine.ui.DrinkStatusMessageMapper;
 
@@ -35,7 +36,13 @@ public class CoffeeMachineController {
                 console.displayMessage(drinkStatusMessageMapper.toMessage(drinkStatus));
                 break;
             case "fill":
-                fillService.execute();
+                int water = console.askWater();
+                int milch  = console.askMilch();
+                int coffee = console.askCoffee();
+                int cups = console.askCup();
+
+                RefillRequest refillRequest = new RefillRequest(water, milch, coffee, cups);
+                fillService.fill(refillRequest);
                 break;
             case "take":
                 takeService.execute();

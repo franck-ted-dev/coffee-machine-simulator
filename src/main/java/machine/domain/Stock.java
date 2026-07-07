@@ -58,20 +58,4 @@ public class Stock {
         this.coffeeQuantity -= coffee;
         this.disposableCups -= disposableCups;
     }
-
-    public void updateWaterQuantity(int waterQuantity) {
-        this.waterQuantity += waterQuantity;
-    }
-
-    public void updateMilkQuantity(int milkQuantity) {
-        this.milkQuantity += milkQuantity;
-    }
-
-    public void updateCoffeeQuantity(int coffeeQuantity) {
-        this.coffeeQuantity += coffeeQuantity;
-    }
-
-    public void updateDisposableCups(int disposableCups) {
-        this.disposableCups += disposableCups;
-    }
 }

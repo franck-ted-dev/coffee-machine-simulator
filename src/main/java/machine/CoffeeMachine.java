@@ -20,7 +20,7 @@ public class CoffeeMachine {
         DrinkMaker drinkMaker = new DrinkMaker(stock);
         DrinkStatusMessageMapper drinkStatusMessageMapper = new DrinkStatusMessageMapper();
         BuyService buyService = new BuyService(drinkCatalog, drinkMaker, cashUnit);
-        FillService fillService = new FillService(console, stock);
+        FillService fillService = new FillService(stock);
         TakeService takeService = new TakeService(cashUnit, console);
         ResourceInventoryService resourceInventoryService = new ResourceInventoryService(stock, cashUnit, console);
         this.controller = new CoffeeMachineController(console, buyService, fillService, takeService,
