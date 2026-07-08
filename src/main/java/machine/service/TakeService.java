@@ -1,4 +1,4 @@
-package machine.logic;
+package machine.service;
 
 import machine.domain.CashUnit;
 
