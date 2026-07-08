@@ -20,11 +20,11 @@ public class DrinkMaker {
             return DrinkStatus.NOT_ENOUGH_WATER;
         }
 
-        if(stock.hasEnoughMilk(MILK_QUANTITY_FOR_DRINK)){   // done
+        if(!stock.hasEnoughMilk(MILK_QUANTITY_FOR_DRINK)){   // done
             return DrinkStatus.NOT_ENOUGH_MILK;
         }
 
-        if(stock.hasEnoughCoffee(COFFEE_QUANTITY_FOR_DRINK)){   // done
+        if(!stock.hasEnoughCoffee(COFFEE_QUANTITY_FOR_DRINK)){   // done
             return DrinkStatus.NOT_ENOUGH_COFFEE;
         }
 
