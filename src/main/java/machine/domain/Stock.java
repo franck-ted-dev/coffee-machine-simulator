@@ -6,11 +6,15 @@ public class Stock {
     private int coffeeQuantity;
     private int disposableCups;
 
+    public Stock(int water, int milk, int coffee, int disposableCups){
+        this.waterQuantity = water;
+        this.milkQuantity = milk;
+        this.coffeeQuantity = coffee;
+        this.disposableCups = disposableCups;
+    }
+
     public Stock(){
-        this.waterQuantity = 400;
-        this.milkQuantity = 540;
-        this.coffeeQuantity = 120;
-        this.disposableCups = 9;
+        this(400, 540, 120, 9);
     }
 
     public int getWaterQuantity() {
