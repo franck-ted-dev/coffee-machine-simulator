@@ -3,8 +3,12 @@ package machine.domain;
 public class CashUnit {
     private int balance;
 
+    public CashUnit(int initialBalance) {
+        this.balance = initialBalance;
+    }
+
     public CashUnit() {
-        this.balance = 550;
+        this(550);
     }
 
     public int getBalance() {
