@@ -16,10 +16,6 @@ public class DrinkCatalog {
         drinks.add(cappuccino);
     }
 
-    public List<Drink> getDrinks() {
-        return drinks;
-    }
-
     public boolean isAvailable(int choiceDrink) {
         return choiceDrink < drinks.size() && choiceDrink >= 0;
     }
