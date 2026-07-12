@@ -4,7 +4,7 @@ public class CashUnit {
     private int balance;
 
     public CashUnit(int initialBalance) {
-        this.balance = initialBalance;
+        this.balance = Math.max(0, initialBalance);
     }
 
     public CashUnit() {
