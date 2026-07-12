@@ -30,6 +30,22 @@ public class BuyServiceTest {
     }
 
     @Test
+    void shouldReturnInvalidDrinkWhenChoiceIsNegative(){
+        int badChoice = -1;
+        DrinkStatus drinkStatus = buyService.buyDrink(badChoice);
+        assertEquals(DrinkStatus.INVALID_DRINK, drinkStatus);
+        assertEquals(0, cashUnit.getBalance());
+    }
+
+    @Test
+    void shouldReturnInvalidDrinkWhenChoiceIsZero(){
+        int badChoice = 0;
+        DrinkStatus drinkStatus = buyService.buyDrink(badChoice);
+        assertEquals(DrinkStatus.INVALID_DRINK, drinkStatus);
+        assertEquals(0, cashUnit.getBalance());
+    }
+
+    @Test
     void shouldCollectMoneyWhenDrinkIsPrepared(){
         int goodChoice = 1;
         DrinkStatus drinkStatus = buyService.buyDrink(goodChoice);
