@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>io.github.franckteddev</groupId>
-    <artifactId>CoffeeMachine</artifactId>
+    <artifactId>coffee-machine-simulator</artifactId>
     <version>1.0.0</version>
 
     <properties>
@@ -50,6 +50,14 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.6.3</version>
+                <configuration>
+                    <mainClass>machine.Main</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>

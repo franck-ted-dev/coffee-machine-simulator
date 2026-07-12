@@ -123,8 +123,7 @@ cd coffee-machine-simulator
 Run
 
 ```bash
-mvn compile
-mvn exec:java
+mvn clean compile exec:java
 ```
 
 (or run `Main.java` directly from your IDE)
