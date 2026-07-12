@@ -1,6 +1,7 @@
 # ☕ Coffee Machine Simulator
+![Maven CI](https://github.com/franck-ted-dev/coffee-machine-simulator/actions/workflows/maven.yml/badge.svg)
 
-A console-based coffee machine simulator developed in **Java 21** with a strong focus on **object-oriented design**, **clean architecture**, **testability**, and **software engineering best practices**.
+A console-based coffee machine simulator developed in **Java 21** with a strong focus on **object-oriented design**, **layered architecture**, **testability**, and **clean-code principles**.
 
 This project started as a programming exercise and was gradually refactored into a maintainable Java application following professional development practices.
 
@@ -73,15 +74,14 @@ The application follows a layered architecture.
                        ▼
             CoffeeMachineController
                        │
-       ┌───────────────┼───────────────┐
-       ▼               ▼               ▼
- BuyService      FillService     TakeService
-                       │
-                       ▼
-        ResourceInventoryService
-                       │
-                       ▼
-                 Domain Layer
+       ┌───────────────┼───────────────┬────────────────────┐
+       ▼               ▼               ▼                    ▼
+  BuyService      FillService     TakeService     ResourceInventoryService
+       │               │               │                    │
+       └───────────────┴───────────────┴────────────────────┘
+                               │
+                               ▼
+                          Domain Layer
 ```
 
 Business logic is completely separated from the console UI, making the services easy to test independently.
