@@ -102,7 +102,6 @@ Implemented improvements include:
 * Business logic isolated inside services
 * Consistent package organization
 * Unit testing of business logic
-* Clean Git commit history
 
 ---
 
@@ -132,16 +131,10 @@ mvn clean compile exec:java
 
 ## Running the Tests
 
-Execute all unit tests
+Build the application, run all tests, and generate the JaCoCo report:
 
 ```bash
-mvn clean test
-```
-
-Generate the JaCoCo coverage report
-
-```bash
-mvn clean test
+mvn clean verify
 ```
 
 Open
@@ -203,7 +196,7 @@ These features were intentionally left out of version **1.0.0** to keep the proj
 
 ## Author
 
-**Franck Tedjou**
+**Franck Divane Tedjou Kamla**
 
 Computer Science Student at TU Dortmund
 
